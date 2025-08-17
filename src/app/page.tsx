@@ -19,7 +19,7 @@ export default function Page() {
   );
 }
 
-function Clock({ lineId }: { lineId?: string }) {
+function Clock() {
   const [time, setTime] = useState<Date>(new Date());
 
   useEffect(() => {
@@ -48,7 +48,7 @@ function Clock({ lineId }: { lineId?: string }) {
         <circle cx="50" cy="50" r="2" fill="black" />
 
         {/* Second hand */}
-        <SecondHand lineId={lineId} secondRotation={secondRotation} />
+        <SecondHand secondRotation={secondRotation} />
       </svg>
     </div>
   );
