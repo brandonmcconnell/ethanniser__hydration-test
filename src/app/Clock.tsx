@@ -1,8 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { SecondHand } from "./SecondHand_client";
 
-export function Clock({ SecondHand }: { SecondHand: React.FC<{ secondRotation: number }> }) {
+export function Clock({ children }: { children: React.ReactNode }) {
   const [time, setTime] = useState<Date>(new Date());
 
   useEffect(() => {
@@ -31,7 +32,7 @@ export function Clock({ SecondHand }: { SecondHand: React.FC<{ secondRotation: n
         <circle cx="50" cy="50" r="2" fill="black" />
 
         {/* Second hand */}
-        <SecondHand secondRotation={secondRotation} />
+        {typeof window === "undefined" ? children : <SecondHand secondRotation={secondRotation} />}
       </svg>
     </div>
   );
