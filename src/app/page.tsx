@@ -1,8 +1,8 @@
 "use client";
 
 import React from "react";
+import { connection } from 'next/server'
 import { useEffect, useState } from "react";
-import { SecondHand } from "./SecondHand";
 
 export default function Page() {
   return (
@@ -13,7 +13,7 @@ export default function Page() {
       </div>
       <div className="flex flex-col items-center justify-center">
         <h1 className="text-2xl font-bold">Fixed</h1>
-        <Clock lineId="second-hand" />
+        <Clock />
       </div>
     </div>
   );
@@ -52,4 +52,23 @@ function Clock() {
       </svg>
     </div>
   );
+}
+
+export async function SecondHand({ secondRotation }: { secondRotation: number }) {
+  await connection();
+  const time = new Date();
+  const secondRotationFallback = time.getSeconds() * 6 + time.getMilliseconds() * 0.006;
+
+  return (
+    <line
+      x1="50"
+      y1="50"
+      x2="50"
+      y2="10"
+      stroke="red"
+      strokeWidth="1"
+      transform={`rotate(${secondRotation ?? secondRotationFallback}, 50, 50)`}
+      style={{ transition: "transform 0.1s linear" }}
+    />
+  )
 }
