@@ -2,6 +2,7 @@
 
 import React from "react";
 import { useEffect, useState } from "react";
+import { SecondHand } from "./SecondHand";
 
 export default function Page() {
   return (
@@ -18,14 +19,8 @@ export default function Page() {
   );
 }
 
-declare global {
-  interface Window {
-    __INITIAL_TIME__?: number;
-  }
-}
-
 function Clock({ lineId }: { lineId?: string }) {
-  const [time, setTime] = useState(() => new Date());
+  const [time, setTime] = useState<Date>(new Date());
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -53,17 +48,7 @@ function Clock({ lineId }: { lineId?: string }) {
         <circle cx="50" cy="50" r="2" fill="black" />
 
         {/* Second hand */}
-        <line
-          x1="50"
-          y1="50"
-          x2="50"
-          y2="10"
-          stroke="red"
-          strokeWidth="1"
-          transform={`rotate(${secondRotation}, 50, 50)`}
-          style={{ transition: "transform 0.1s linear" }}
-          id={lineId}
-        />
+        <SecondHand lineId={lineId} secondRotation={secondRotation} />
       </svg>
     </div>
   );
