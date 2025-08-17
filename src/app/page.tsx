@@ -13,7 +13,6 @@ export default function Page() {
       <div className="flex flex-col items-center justify-center">
         <h1 className="text-2xl font-bold">Fixed</h1>
         <Clock lineId="second-hand" />
-        <InlineScript />
       </div>
     </div>
   );
@@ -26,14 +25,7 @@ declare global {
 }
 
 function Clock({ lineId }: { lineId?: string }) {
-  const [time, setTime] = useState(() => {
-    // On client, use the initial time from the inline script
-    if (typeof window !== "undefined" && window.__INITIAL_TIME__) {
-      return new Date(window.__INITIAL_TIME__);
-    }
-    // On server, use the current time
-    return new Date();
-  });
+  const [time, setTime] = useState(() => new Date());
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -74,30 +66,5 @@ function Clock({ lineId }: { lineId?: string }) {
         />
       </svg>
     </div>
-  );
-}
-
-function InlineScript() {
-  return (
-    <script
-      suppressHydrationWarning
-      dangerouslySetInnerHTML={{
-        __html: `(${(() => {
-          const secondHand = document.getElementById("second-hand");
-          if (!secondHand) {
-            console.error("Second hand not found");
-            return;
-          }
-          window.__INITIAL_TIME__ = Date.now();
-          const time = new Date(window.__INITIAL_TIME__);
-          const secondRotation =
-            time.getSeconds() * 6 + time.getMilliseconds() * 0.006;
-          secondHand.setAttribute(
-            "transform",
-            `rotate(${secondRotation}, 50, 50)`
-          );
-        }).toString()})()`,
-      }}
-    />
   );
 }
