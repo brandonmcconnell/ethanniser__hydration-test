@@ -1,4 +1,4 @@
-export async function SecondHand({ secondRotation }: { secondRotation: number }) {
+export function SecondHand({ secondRotation }: { secondRotation: number }) {
   const time = new Date();
   const secondRotationFallback = time.getSeconds() * 6 + time.getMilliseconds() * 0.006;
 
